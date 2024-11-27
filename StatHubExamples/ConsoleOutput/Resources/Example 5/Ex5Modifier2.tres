@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="SimpleModifier" load_steps=11 format=3 uid="uid://cr4satwvpfdub"]
+
+[ext_resource type="Resource" uid="uid://bbwnxrd38sglx" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag1.tres" id="1_sqbfx"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagHolder.cs" id="2_w217j"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagMatcher.cs" id="3_g7acp"]
+[ext_resource type="Resource" uid="uid://d35cl0hn1o2tw" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag1.tres" id="4_b1dre"]
+[ext_resource type="Resource" uid="uid://xm20qldwryy" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag2.tres" id="5_54osc"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Modifiers/SimpleModifier.cs" id="6_xht1w"]
+
+[sub_resource type="Resource" id="Resource_lq2hl"]
+script = ExtResource("2_w217j")
+_tags = [ExtResource("1_sqbfx")]
+metadata/_custom_type_script = ExtResource("2_w217j")
+
+[sub_resource type="Resource" id="Resource_slamt"]
+script = ExtResource("3_g7acp")
+TagFilter = SubResource("Resource_lq2hl")
+InvertTagFilter = true
+TagMatchesRequired = 1
+metadata/_custom_type_script = ExtResource("3_g7acp")
+
+[sub_resource type="Resource" id="Resource_s67mm"]
+script = ExtResource("2_w217j")
+_tags = [ExtResource("4_b1dre"), ExtResource("5_54osc")]
+metadata/_custom_type_script = ExtResource("2_w217j")
+
+[sub_resource type="Resource" id="Resource_0pt8n"]
+script = ExtResource("3_g7acp")
+TagFilter = SubResource("Resource_s67mm")
+InvertTagFilter = false
+TagMatchesRequired = 1
+metadata/_custom_type_script = ExtResource("3_g7acp")
+
+[resource]
+script = ExtResource("6_xht1w")
+ModificationOption = 1
+BaseModificationAmount = 100.0
+ContainerTagMatcher = SubResource("Resource_slamt")
+StatTagMatcher = SubResource("Resource_0pt8n")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("6_xht1w")

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ExpressionModifier" load_steps=2 format=3 uid="uid://bwhmpwjtupc6t"]
+
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Modifiers/ExpressionModifier.cs" id="1_5ppe3"]
+
+[resource]
+script = ExtResource("1_5ppe3")
+CustomExpression = "sqrt(input + (level * 15))"
+Priority = 0
+DebugName = "Expression Mod 3"
+metadata/_custom_type_script = ExtResource("1_5ppe3")

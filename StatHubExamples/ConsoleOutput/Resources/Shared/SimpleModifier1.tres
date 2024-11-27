@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SimpleModifier" load_steps=2 format=3 uid="uid://ba1ctbh74s1nh"]
+
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Modifiers/SimpleModifier.cs" id="1_d1qwq"]
+
+[resource]
+script = ExtResource("1_d1qwq")
+ModificationOption = 0
+BaseModificationAmount = 7.5
+Priority = 500
+DebugName = "Simple Mod 1"
+metadata/_custom_type_script = ExtResource("1_d1qwq")

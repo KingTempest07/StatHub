@@ -1,0 +1,218 @@
+[gd_scene load_steps=25 format=3 uid="uid://diierp4piqgxx"]
+
+[ext_resource type="Script" path="res://StatHubExamples/ConsoleOutput/console_output.gd" id="1_fd7yi"]
+[ext_resource type="Resource" uid="uid://do072d3f6rd0u" path="res://StatHubExamples/ConsoleOutput/Resources/Example 5/Ex5Modifier1.tres" id="2_apk5e"]
+[ext_resource type="Resource" uid="uid://cr4satwvpfdub" path="res://StatHubExamples/ConsoleOutput/Resources/Example 5/Ex5Modifier2.tres" id="3_1kf55"]
+[ext_resource type="Resource" uid="uid://duf6mf8c6c3ht" path="res://StatHubExamples/ConsoleOutput/Resources/Example 5/Ex5Modifier3.tres" id="4_8bwcq"]
+[ext_resource type="Resource" uid="uid://ba1ctbh74s1nh" path="res://StatHubExamples/ConsoleOutput/Resources/Shared/SimpleModifier1.tres" id="5_pfttl"]
+[ext_resource type="Resource" uid="uid://hwitbsdb1ro4" path="res://StatHubExamples/ConsoleOutput/Resources/Shared/SimpleModifier2.tres" id="6_bi55p"]
+[ext_resource type="Resource" uid="uid://chkrc263o5qlw" path="res://StatHubExamples/ConsoleOutput/Resources/Shared/ExpressionModifier1.tres" id="7_p75lm"]
+[ext_resource type="Resource" uid="uid://dhgrmmyggxph8" path="res://StatHubExamples/ConsoleOutput/Resources/Shared/ExpressionModifier2.tres" id="8_yfb8m"]
+[ext_resource type="Resource" uid="uid://bwhmpwjtupc6t" path="res://StatHubExamples/ConsoleOutput/Resources/Shared/ExpressionModifier3.tres" id="9_ve1fj"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Containers/StatContainer.cs" id="10_ve3fc"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/SimpleStat.cs" id="11_b1ccp"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/ExpressionStat.cs" id="12_bi7jr"]
+[ext_resource type="Resource" uid="uid://bbwnxrd38sglx" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag1.tres" id="13_d3rl2"]
+[ext_resource type="Resource" uid="uid://dt8rmo3i0f7qw" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag2.tres" id="14_8up0g"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagHolder.cs" id="15_js51r"]
+[ext_resource type="Resource" uid="uid://d35cl0hn1o2tw" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag1.tres" id="16_qflwk"]
+[ext_resource type="Resource" uid="uid://xm20qldwryy" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag2.tres" id="17_3kju7"]
+[ext_resource type="Resource" uid="uid://cocvnewu3u234" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag3.tres" id="18_5do8i"]
+[ext_resource type="Resource" uid="uid://ddh6pfrse7vi7" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag3.tres" id="19_vr1wq"]
+
+[sub_resource type="Resource" id="Resource_pdndt"]
+script = ExtResource("15_js51r")
+_tags = [ExtResource("13_d3rl2"), ExtResource("14_8up0g")]
+metadata/_custom_type_script = ExtResource("15_js51r")
+
+[sub_resource type="Resource" id="Resource_2lubf"]
+script = ExtResource("15_js51r")
+_tags = [ExtResource("16_qflwk")]
+metadata/_custom_type_script = ExtResource("15_js51r")
+
+[sub_resource type="Resource" id="Resource_wqxvv"]
+script = ExtResource("15_js51r")
+_tags = [ExtResource("17_3kju7"), ExtResource("18_5do8i")]
+metadata/_custom_type_script = ExtResource("15_js51r")
+
+[sub_resource type="Resource" id="Resource_uu1vn"]
+script = ExtResource("15_js51r")
+_tags = [ExtResource("14_8up0g"), ExtResource("19_vr1wq")]
+metadata/_custom_type_script = ExtResource("15_js51r")
+
+[sub_resource type="Resource" id="Resource_ar80t"]
+script = ExtResource("15_js51r")
+_tags = [ExtResource("17_3kju7")]
+metadata/_custom_type_script = ExtResource("15_js51r")
+
+[node name="ConsoleOutputCS" type="Node" node_paths=PackedStringArray("ex1_simple_stats", "ex2_simple_stats", "ex3_simple_stats", "ex4_expression_stat_1", "ex4_expression_stat_2", "ex4_expression_stat_3", "ex4_simple_stat_1", "ex5_stat_container_1", "ex5_stat_container_2")]
+script = ExtResource("1_fd7yi")
+ex1_simple_stats = [NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat1"), NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat2"), NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat3"), NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat4")]
+ex2_simple_stats = [NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat1"), NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat2"), NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat3"), NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat4")]
+ex3_simple_stats = [NodePath("Ex1234StatContainer/Example3SimpleStats/SimpleStat1"), NodePath("Ex1234StatContainer/Example3SimpleStats/SimpleStat2"), NodePath("Ex1234StatContainer/Example3SimpleStats/SimpleStat3"), NodePath("Ex1234StatContainer/Example3SimpleStats/SimpleStat4")]
+ex4_expression_stat_1 = NodePath("Ex1234StatContainer/Example4Stats/ExpressionStat1")
+ex4_expression_stat_2 = NodePath("Ex1234StatContainer/Example4Stats/ExpressionStat2")
+ex4_expression_stat_3 = NodePath("Ex1234StatContainer/Example4Stats/ExpressionStat3")
+ex4_simple_stat_1 = NodePath("Ex1234StatContainer/Example4Stats/SimpleStat1")
+ex5_stat_container_1 = NodePath("Ex5StatContainer1")
+ex5_stat_container_2 = NodePath("Ex5StatContainer2")
+ex5_modifier_1 = ExtResource("2_apk5e")
+ex5_modifier_2 = ExtResource("3_1kf55")
+ex5_modifier_3 = ExtResource("4_8bwcq")
+simple_modifier_1 = ExtResource("5_pfttl")
+simple_modifier_2 = ExtResource("6_bi55p")
+expression_modifier_1 = ExtResource("7_p75lm")
+expression_modifier_2 = ExtResource("8_yfb8m")
+expression_modifier_3 = ExtResource("9_ve1fj")
+
+[node name="Ex1234StatContainer" type="Node" parent="."]
+script = ExtResource("10_ve3fc")
+metadata/_custom_type_script = ExtResource("10_ve3fc")
+
+[node name="Example1SimpleStats" type="Node" parent="Ex1234StatContainer"]
+
+[node name="SimpleStat1" type="Node" parent="Ex1234StatContainer/Example1SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 5.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat2" type="Node" parent="Ex1234StatContainer/Example1SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 10.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat3" type="Node" parent="Ex1234StatContainer/Example1SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = -54.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat4" type="Node" parent="Ex1234StatContainer/Example1SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 1094.3
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="Example2SimpleStats" type="Node" parent="Ex1234StatContainer"]
+
+[node name="SimpleStat1" type="Node" parent="Ex1234StatContainer/Example2SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 5.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat2" type="Node" parent="Ex1234StatContainer/Example2SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 10.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat3" type="Node" parent="Ex1234StatContainer/Example2SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = -54.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat4" type="Node" parent="Ex1234StatContainer/Example2SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 1094.3
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="Example3SimpleStats" type="Node" parent="Ex1234StatContainer"]
+
+[node name="SimpleStat1" type="Node" parent="Ex1234StatContainer/Example3SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 5.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat2" type="Node" parent="Ex1234StatContainer/Example3SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 10.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat3" type="Node" parent="Ex1234StatContainer/Example3SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = -54.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat4" type="Node" parent="Ex1234StatContainer/Example3SimpleStats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 1094.3
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="Example4Stats" type="Node" parent="Ex1234StatContainer"]
+
+[node name="ExpressionStat1" type="Node" parent="Ex1234StatContainer/Example4Stats"]
+script = ExtResource("12_bi7jr")
+CustomExpression = "simple1 + simple2"
+_expressionStatInputs = {
+"simple1": NodePath("../SimpleStat1"),
+"simple2": NodePath("../SimpleStat2")
+}
+metadata/_custom_type_script = ExtResource("12_bi7jr")
+
+[node name="ExpressionStat2" type="Node" parent="Ex1234StatContainer/Example4Stats"]
+script = ExtResource("12_bi7jr")
+CustomExpression = "-simple3 * simple4"
+_expressionStatInputs = {
+"simple3": NodePath("../SimpleStat3"),
+"simple4": NodePath("../SimpleStat4")
+}
+metadata/_custom_type_script = ExtResource("12_bi7jr")
+
+[node name="ExpressionStat3" type="Node" parent="Ex1234StatContainer/Example4Stats"]
+script = ExtResource("12_bi7jr")
+CustomExpression = "expression2 / expression1"
+_expressionStatInputs = {
+"expression1": NodePath("../ExpressionStat1"),
+"expression2": NodePath("../ExpressionStat2")
+}
+metadata/_custom_type_script = ExtResource("12_bi7jr")
+
+[node name="SimpleStat1" type="Node" parent="Ex1234StatContainer/Example4Stats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 5.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat2" type="Node" parent="Ex1234StatContainer/Example4Stats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 10.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat3" type="Node" parent="Ex1234StatContainer/Example4Stats"]
+script = ExtResource("11_b1ccp")
+BaseValue = -54.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat4" type="Node" parent="Ex1234StatContainer/Example4Stats"]
+script = ExtResource("11_b1ccp")
+BaseValue = 1094.3
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="Ex5StatContainer1" type="Node" parent="."]
+script = ExtResource("10_ve3fc")
+TagHolder = SubResource("Resource_pdndt")
+metadata/_custom_type_script = ExtResource("10_ve3fc")
+
+[node name="SimpleStat1" type="Node" parent="Ex5StatContainer1"]
+script = ExtResource("11_b1ccp")
+BaseValue = 5.0
+TagHolder = SubResource("Resource_2lubf")
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat2" type="Node" parent="Ex5StatContainer1"]
+script = ExtResource("11_b1ccp")
+BaseValue = 10.0
+TagHolder = SubResource("Resource_wqxvv")
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="Ex5StatContainer2" type="Node" parent="."]
+script = ExtResource("10_ve3fc")
+TagHolder = SubResource("Resource_uu1vn")
+metadata/_custom_type_script = ExtResource("10_ve3fc")
+
+[node name="SimpleStat3" type="Node" parent="Ex5StatContainer2"]
+script = ExtResource("11_b1ccp")
+BaseValue = -54.0
+metadata/_custom_type_script = ExtResource("11_b1ccp")
+
+[node name="SimpleStat4" type="Node" parent="Ex5StatContainer2"]
+script = ExtResource("11_b1ccp")
+BaseValue = 1094.3
+TagHolder = SubResource("Resource_ar80t")
+metadata/_custom_type_script = ExtResource("11_b1ccp")

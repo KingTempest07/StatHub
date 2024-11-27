@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Tag" load_steps=2 format=3 uid="uid://ddh6pfrse7vi7"]
+
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/Tag.cs" id="1_dlsw8"]
+
+[resource]
+script = ExtResource("1_dlsw8")
+metadata/_custom_type_script = ExtResource("1_dlsw8")

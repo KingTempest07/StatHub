@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SimpleModifier" load_steps=2 format=3 uid="uid://hwitbsdb1ro4"]
+
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Modifiers/SimpleModifier.cs" id="1_axikd"]
+
+[resource]
+script = ExtResource("1_axikd")
+ModificationOption = 1
+BaseModificationAmount = 50.0
+Priority = 0
+DebugName = "Simple Mod 2"
+metadata/_custom_type_script = ExtResource("1_axikd")

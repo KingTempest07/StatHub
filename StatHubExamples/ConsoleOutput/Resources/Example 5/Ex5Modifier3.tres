@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="SimpleModifier" load_steps=10 format=3 uid="uid://duf6mf8c6c3ht"]
+
+[ext_resource type="Resource" uid="uid://d35cl0hn1o2tw" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag1.tres" id="2_27n67"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagHolder.cs" id="2_aot4x"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagMatcher.cs" id="3_27n67"]
+[ext_resource type="Resource" uid="uid://xm20qldwryy" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag2.tres" id="3_mnhjk"]
+[ext_resource type="Resource" uid="uid://cocvnewu3u234" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag3.tres" id="4_mnhjk"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Modifiers/SimpleModifier.cs" id="5_450fy"]
+
+[sub_resource type="Resource" id="Resource_slamt"]
+script = ExtResource("3_27n67")
+InvertTagFilter = false
+TagMatchesRequired = 0
+metadata/_custom_type_script = ExtResource("3_27n67")
+
+[sub_resource type="Resource" id="Resource_s67mm"]
+script = ExtResource("2_aot4x")
+_tags = [ExtResource("2_27n67"), ExtResource("3_mnhjk"), ExtResource("4_mnhjk")]
+metadata/_custom_type_script = ExtResource("2_aot4x")
+
+[sub_resource type="Resource" id="Resource_0pt8n"]
+script = ExtResource("3_27n67")
+TagFilter = SubResource("Resource_s67mm")
+InvertTagFilter = true
+TagMatchesRequired = -1
+metadata/_custom_type_script = ExtResource("3_27n67")
+
+[resource]
+script = ExtResource("5_450fy")
+ModificationOption = 1
+BaseModificationAmount = 25.0
+ContainerTagMatcher = SubResource("Resource_slamt")
+StatTagMatcher = SubResource("Resource_0pt8n")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("5_450fy")
