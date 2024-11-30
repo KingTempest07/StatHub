@@ -3,9 +3,10 @@ using Godot;
 namespace StatHub;
 
 /// <summary>
-/// DOC
+/// A stat provides a base value and returns a modified value based on any 
+/// attached modifiers.
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://addons/StatHub/Assets/Stat.png")]
 public abstract partial class Stat : Node
 {
 	public Stat()
@@ -15,7 +16,7 @@ public abstract partial class Stat : Node
 
 
 	/// <summary>
-	/// DOC
+	/// The tag holder to match for this stat.
 	/// </summary>
 	/// <value></value>
 	[Export]
@@ -30,10 +31,10 @@ public abstract partial class Stat : Node
 
 		if (ValueUpdateOption == ValueUpdateOptions.ON_DIRTIED)
 		{
-			onValueDirtied += UpdateValue;
+			ValueDirtied += UpdateValue;
 		}
 
-		onModifiersChanged += () => IsDirty = true;
+		ModifiersChanged += () => IsDirty = true;
 		IsDirty = true;
     }
 
@@ -59,9 +60,8 @@ public abstract partial class Stat : Node
 
 
     /// <summary>
-    /// DOC
+    /// Gets the container of this stat.
     /// </summary>
-    /// <returns></returns>
     public StatContainer GetContainer() => StatHub.GetContainer(this);
 
 

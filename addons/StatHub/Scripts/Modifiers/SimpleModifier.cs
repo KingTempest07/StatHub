@@ -5,11 +5,14 @@ using static Godot.GD;
 namespace StatHub;
 
 /// <summary>
-/// DOC
+/// A modifier that has two basic additive modification methods.
 /// </summary>
 [GlobalClass, Icon("res://addons/StatHub/Assets/SimpleModifier.png")]
 public partial class SimpleModifier : StatModifier
 {
+	/// <summary>
+	/// Defines methods for applying the base modification amount to an input.
+	/// </summary>
     public enum ModificationOptions
 	{
 		/// <summary>
@@ -25,6 +28,9 @@ public partial class SimpleModifier : StatModifier
 		/// </remarks> 
 		PERCENT_ADDITIVE = 1,
 	}
+	/// <summary>
+	/// Defines how the base modification amount is applied to an input.
+	/// </summary>
 	[Export]
 	public ModificationOptions ModificationOption { get; private set; }
 

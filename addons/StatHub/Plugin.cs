@@ -6,7 +6,7 @@ namespace StatHub;
 [Tool]
 public partial class Plugin : EditorPlugin
 {
-	private string STATHUB_AUTOLOAD_NAME = "StatHubInstance";
+	public const string STATHUB_AUTOLOAD_NAME = "StatHubInstance";
 
 	public override void _EnterTree()
 	{

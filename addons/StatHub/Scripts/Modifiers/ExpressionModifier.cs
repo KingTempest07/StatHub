@@ -4,13 +4,13 @@ using static Godot.GD;
 namespace StatHub;
 
 /// <summary>
-/// DOC
+/// A powerful modifier that edits an input value based on a custom expression.
 /// </summary>
 [GlobalClass, Icon("res://addons/StatHub/Assets/ExpressionModifier.png")]
 public partial class ExpressionModifier : StatModifier
 {
 	/// <summary>
-	/// A custom expression that defines how the input value is modified. This 
+	/// A custom expression that defines how an input value is modified. This 
 	/// string will be parsed into the type <c>Expression</c>, so for usage, 
 	/// refer to the docs:  
 	/// https://docs.godotengine.org/en/stable/classes/class_expression.html

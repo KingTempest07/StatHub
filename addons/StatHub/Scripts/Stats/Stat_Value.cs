@@ -4,21 +4,30 @@ namespace StatHub;
 
 public abstract partial class Stat
 {
-	public delegate void ValueDirtied();
-	public event ValueDirtied onValueDirtied;
+	/// <summary>
+	/// Emitted when the stat’s value is out-of-date.
+	/// </summary>
+	[Signal]
+	public delegate void ValueDirtiedEventHandler();
 
-	public delegate void ValueUpdated(float previous, float current);
-	public event ValueUpdated onValueUpdated;
+	/// <summary>
+	/// Emitted when the stat’s value is recalculated.
+	/// </summary>
+	[Signal]
+	public delegate void ValueUpdatedEventHandler(float previous, float current);
 
 
 	/// <summary>
-	/// The current value of the stat
+	/// Gets the current value of the stat.
 	/// </summary>
 	public float Value { get => GetCurrentValue(); }
+	/// <summary>
+	/// Stores the most recent value of the stat.
+	/// </summary>
 	protected float m_valueCached;
 
 	/// <value>
-	/// True if the value is due for an update, otherwise false
+	/// <c>true</c> if the value is due for an update, otherwise <c>false</c>.
 	/// </value>
 	public bool IsDirty { 
 		get => _isDirty;
@@ -28,12 +37,15 @@ public abstract partial class Stat
 
 			if (!__wasDirty && _isDirty)
 			{
-				onValueDirtied?.Invoke();
+				EmitSignal(SignalName.ValueDirtied);
 			}
 		}
 	}
 	private bool _isDirty;
 
+	/// <summary>
+	/// Defines methods of updating the stat’s value.
+	/// </summary>
 	public enum ValueUpdateOptions
 	{
 		/// <summary>
@@ -84,10 +96,16 @@ public abstract partial class Stat
 		/// </remarks>
 		MANUAL,
 	}
+	/// <summary>
+	/// Defines when the value will update.
+	/// </summary>
 	[Export]
 	public ValueUpdateOptions ValueUpdateOption { get; private set; }
 
 
+	/// <summary>
+	/// Gets the current value of the stat.
+	/// </summary>
 	protected float GetCurrentValue()
     {
         if (IsDirty && ValueUpdateOption == ValueUpdateOptions.ON_REQUEST_VALUE)
@@ -99,7 +117,7 @@ public abstract partial class Stat
     }
 
 	/// <summary>
-	/// Resets the value to the base value and reapplies its modifiers
+	/// Resets the value to the base value and reapplies its modifiers.
 	/// </summary>
 	public virtual void UpdateValue()
 	{
@@ -109,10 +127,10 @@ public abstract partial class Stat
 
 		IsDirty = false;
 
-		onValueUpdated?.Invoke(__previousValue, m_valueCached);
+		EmitSignal(SignalName.ValueUpdated, __previousValue, m_valueCached);
 	}
 	/// <returns>
-	/// The current value of the stat before modifiers are applied
+	/// Gets the current value of the stat before modifiers are applied.
 	/// </returns>
 	protected abstract float GetBaseValue();
 }

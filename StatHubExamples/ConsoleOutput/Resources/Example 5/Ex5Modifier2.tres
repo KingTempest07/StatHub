@@ -16,7 +16,7 @@ metadata/_custom_type_script = ExtResource("2_w217j")
 script = ExtResource("3_g7acp")
 TagFilter = SubResource("Resource_lq2hl")
 InvertTagFilter = true
-TagMatchesRequired = 1
+RequiredTagMatches = 1
 metadata/_custom_type_script = ExtResource("3_g7acp")
 
 [sub_resource type="Resource" id="Resource_s67mm"]
@@ -28,7 +28,7 @@ metadata/_custom_type_script = ExtResource("2_w217j")
 script = ExtResource("3_g7acp")
 TagFilter = SubResource("Resource_s67mm")
 InvertTagFilter = false
-TagMatchesRequired = 1
+RequiredTagMatches = 1
 metadata/_custom_type_script = ExtResource("3_g7acp")
 
 [resource]

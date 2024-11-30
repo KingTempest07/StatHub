@@ -7,9 +7,9 @@ using Godot;
 namespace StatHub;
 
 /// <summary>
-/// DOC
+/// A tag holder stores a list of tags.
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://addons/StatHub/Assets/TagHolder.png")]
 public sealed partial class TagHolder : Resource, IEnumerable<Tag>
 {
 	public TagHolder()
@@ -19,7 +19,7 @@ public sealed partial class TagHolder : Resource, IEnumerable<Tag>
 
 
 	/// <summary>
-	/// DOC
+	/// A collection of tags owned by this tag holder.
 	/// </summary>
 	public readonly ReadOnlyCollection<Tag> Tags;
 	private List<Tag> m_tags = new();

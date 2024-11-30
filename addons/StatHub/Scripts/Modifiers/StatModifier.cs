@@ -3,21 +3,28 @@ using Godot;
 namespace StatHub;
 
 /// <summary>
-/// DOC
+/// Based on its settings and internal rules, a modifier edits then returns an 
+/// input value.
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://addons/StatHub/Assets/StatModifier.png")]
 public abstract partial class StatModifier : Resource
 {
 	/// <summary>
-	/// DOC will not match any if not assigned
+	/// The matcher used to determine applicable containers when used as a 
+	/// global modifier.
 	/// </summary>
-	/// <value></value>
+	/// <remarks>
+	/// If unassigned, this will not match with any containers and cannot be 
+	/// used as a global modifier.
+	/// </remarks>
 	[Export]
 	public TagMatcher ContainerTagMatcher { get; private set; }
 	/// <summary>
-	/// DOC will not match any if not assigned
+	/// The matcher used to determine applicable stats when used as a global modifier.
 	/// </summary>
-	/// <value></value>
+	/// <remarks>
+	/// If unassigned, this will not match with any stats and cannot be used as a global modifier.
+	/// </remarks>
 	[Export]
 	public TagMatcher StatTagMatcher { get; private set; }
 
@@ -30,23 +37,22 @@ public abstract partial class StatModifier : Resource
 	/// Higher priority modifiers are applied first. Modifiers of the same 
 	/// priority may be sorted inconsistently, so it is best to avoid overlap.
 	/// </remarks>
-	/// <value></value>
 	[Export]
 	public int Priority { get; private set; }
 
 
 	/// <summary>
-	/// DOC
+	/// Whether or not the modifier should continue to attach to newly created 
+	/// stats when used as a global modifier.
 	/// </summary>
-	/// <value></value>
 	[Export]
 	public bool PersistentIfGlobal { get; private set; }
 
 
-	[Export]
 	/// <summary>
 	/// Defaults to the resource's name if not specified.
 	/// </summary>
+	[Export]
 	public string DebugName { 
 		get => _debugName == ""
 			? ResourceName

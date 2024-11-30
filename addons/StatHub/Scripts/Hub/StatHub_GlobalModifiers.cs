@@ -6,25 +6,33 @@ namespace StatHub;
 
 public partial class StatHub : Node
 {
-	public delegate void AddedGlobalModifier(GlobalModifier globalModifier);
-	public static event AddedGlobalModifier onAddedGlobalModifier;
-
-	public delegate void RemovedGlobalModifier(GlobalModifier globalModifier);
-	public static event RemovedGlobalModifier onRemovedGlobalModifier;
+	/// <summary>
+	/// Emitted when a global modifier is added via the Hub.
+	/// </summary>
+	/// <param name="globalModifier">The newly added global modifier</param>
+	[Signal]
+	public delegate void AddedGlobalModifierEventHandler(GlobalModifier globalModifier);
+	/// <summary>
+	/// Emitted when a global modifier is removed via the Hub.
+	/// </summary>
+	/// <param name="globalModifier">The newly removed global modifier</param>
+	[Signal]
+	public delegate void RemovedGlobalModifierEventHandler(GlobalModifier globalModifier);
 
 
 	/// <summary>
-	/// DOC
+	/// A collection of all active global modifiers created by the Hub
 	/// </summary>
 	public static readonly ReadOnlyCollection<GlobalModifier> GlobalModifiers;
 	private static readonly List<GlobalModifier> m_GlobalModifiers = new();
 
 
 	/// <summary>
-	/// DOC
+	/// Creates a new global modifier using the input <c>modifier</c> then 
+	/// activates it
 	/// </summary>
-	/// <param name="modifier"></param>
-	/// <param name="persistent"></param>
+	/// <param name="modifier">The modifier to make global</param>
+	/// <returns>The newly created global modifier</returns>
 	public static GlobalModifier CreateAndAddGlobalModifier(StatModifier modifier)
 	{
 		if (modifier == null)
@@ -38,9 +46,13 @@ public partial class StatHub : Node
 		return __globalModifier;
 	}
 	/// <summary>
-	/// DOC
+	/// Activates the input <c>globalModifier</c>
 	/// </summary>
-	/// <param name="globalModifier"></param>
+	/// <remarks>
+	/// This will work even if the modifier is already activated, adding a 
+	/// second time
+	/// </remarks>
+	/// <param name="globalModifier">The global modifier to add</param>
 	public static void AddGlobalModifier(GlobalModifier globalModifier)
 	{
 		m_GlobalModifiers.Add(globalModifier);
@@ -57,65 +69,48 @@ public partial class StatHub : Node
 			AttachGlobalModifier(__stat, globalModifier);
 		}
 
-		onAddedGlobalModifier?.Invoke(globalModifier);
+		Instance.EmitSignal(SignalName.AddedGlobalModifier, globalModifier);
 	}
 
 
 	/// <summary>
-	/// DOC
+	/// Deactivates and removes the input <c>globalModifier</c>
 	/// </summary>
-	/// <param name="globalModifier"></param>
+	/// <param name="globalModifier">The global modifier to remove</param>
 	public static void RemoveGlobalModifier(GlobalModifier globalModifier)
 	{
 		foreach (Stat __stat in globalModifier.AttachedStats)
 		{
 			__stat.TryDetachModifier(globalModifier.Modifier);
 		}
+
 		m_GlobalModifiers.Remove(globalModifier);
-		onRemovedGlobalModifier?.Invoke(globalModifier);
+
+		Instance.EmitSignal(SignalName.RemovedGlobalModifier, globalModifier);
 	}
 
 
-	/// <summary>
-	/// DOC
-	/// </summary>
-	/// <param name="statContainer"></param>
-	public static void TryAttachGlobalModifiersToContainer(StatContainer statContainer)
+	private static void TryAttachGlobalModifiers(StatContainer statContainer)
 	{
 		foreach (GlobalModifier __globalModifier in GlobalModifiers)
 		{
 			foreach (Stat __stat in statContainer.Stats)
 			{
-				TryAttachGlobalModifiersToStat(__stat);
+				TryAttachGlobalModifiers(__stat);
 			}
 		}
 	}
-	/// <summary>
-	/// DOC
-	/// </summary>
-	/// <param name="stat"></param>
-	public static void TryAttachGlobalModifiersToStat(Stat stat)
+	private static void TryAttachGlobalModifiers(Stat stat)
 	{
-		GD.PushWarning("Hiiiii");
 		foreach (GlobalModifier __globalModifier in GlobalModifiers)
 		{
-			GD.PushWarning("Looping");
 			stat.TryDetachModifier(__globalModifier.Modifier);
 			TryAttachGlobalModifier(stat, __globalModifier, true);
 		}
 	}
 
-
-	/// <summary>
-	/// DOC
-	/// </summary>
-	/// <param name="stat"></param>
-	/// <param name="globalModifier"></param>
-	/// <param name="stale"></param>
 	private static void TryAttachGlobalModifier(Stat stat, GlobalModifier globalModifier, bool stale)
 	{
-		GD.PushWarning("Trying to attach to " + stat.Name);
-
 		if (stale && !globalModifier.Persistent)
 		{
 			return;
@@ -146,12 +141,6 @@ public partial class StatHub : Node
 
 		AttachGlobalModifier(stat, globalModifier);
 	}
-
-	/// <summary>
-	/// DOC
-	/// </summary>
-	/// <param name="stat"></param>
-	/// <param name="globalModifier"></param>
 	private static void AttachGlobalModifier(Stat stat, GlobalModifier globalModifier)
 	{
 		stat.AttachModifier(globalModifier.Modifier);
@@ -166,11 +155,11 @@ public partial class StatHub : Node
 
 	private static readonly HashSet<Stat> _statMatches = new();
 	/// <summary>
-	/// DOC
+	/// Get all stats recognized by the Hub that match the given tag matchers
 	/// </summary>
-	/// <param name="containerTagMatcher"></param>
-	/// <param name="statTagMatcher"></param>
-	/// <returns></returns>
+	/// <param name="containerTagMatcher">The container matcher to use</param>
+	/// <param name="statTagMatcher">The stat matcher to use</param>
+	/// <returns>Any found matching stats</returns>
 	public static IEnumerable<Stat> GetMatchingStats(TagMatcher containerTagMatcher, TagMatcher statTagMatcher)
 	{
 		_statMatches.Clear();

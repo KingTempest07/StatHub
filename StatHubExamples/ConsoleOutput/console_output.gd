@@ -2,6 +2,7 @@ extends Node
 class_name ConsoleOutput
 
 
+#region EXPORTS
 @export var ex1_simple_stats : Array[SimpleStat]
 @export var ex2_simple_stats : Array[SimpleStat]
 @export var ex3_simple_stats : Array[SimpleStat]
@@ -17,14 +18,16 @@ class_name ConsoleOutput
 @export var ex5_modifier_2 : StatModifier
 @export var ex5_modifier_3 : StatModifier
 
-
-# SHARED
+#region SHARED
 @export var simple_modifier_1 : SimpleModifier
 @export var simple_modifier_2 : SimpleModifier
 
 @export var expression_modifier_1 : ExpressionModifier
 @export var expression_modifier_2 : ExpressionModifier
 @export var expression_modifier_3 : ExpressionModifier
+#endregion
+
+#endregion
 
 
 func _ready():
@@ -180,8 +183,7 @@ func example5():
 	print("\n=====End example no. 5!=====")
 
 
-# HELPERS
-
+#region HELPERS
 static func print_container_values(container : StatContainer, context : String = ""):
 	print_context(context)
 	for stat in container.GetStats():
@@ -199,3 +201,4 @@ static func print_value(stat : Stat, context : String = ""):
 static func print_context(context : String):
 	if context != "":
 			print(context)
+#endregion

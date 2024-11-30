@@ -1,32 +1,38 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Godot;
 
 namespace StatHub;
 
 public abstract partial class Stat
 {
-	public delegate void ModifiersChanged();
-	public event ModifiersChanged onModifiersChanged;
+	/// <summary>
+	/// Invoked when this stat’s list of modifiers is changed.
+	/// </summary>
+	[Signal]
+	public delegate void ModifiersChangedEventHandler();
 
 
 	/// <summary>
-	/// Should always be sorted in order of highest to lowest priority
+	/// A collection of all this stat’s attached modifiers.
 	/// </summary>
+	/// <remarks>
+	/// Always sorted in order of highest to lowest priority.
+	/// </remarks>
 	public readonly ReadOnlyCollection<StatModifierInstance> Modifiers;
 	/// <summary>
-	/// DOC
+	/// A collection of all this stat’s attached modifiers.
 	/// </summary>
-	/// <returns></returns>
 	protected List<StatModifierInstance> m_Modifiers = new();
 
 
 	/// <summary>
 	/// Adds an existing modifier instance to the stat's <c>Modifiers</c> 
-	/// collection
+	/// collection.
 	/// </summary>
 	/// <param name="instance">
-	/// The modifier instance to add to the collection
+	/// The modifier instance to add to the collection.
 	/// </param>
 	public virtual void AttachModifierInstance(StatModifierInstance instance)
 	{
@@ -45,9 +51,9 @@ public abstract partial class Stat
 
 		m_Modifiers.Insert(index, instance);
 
-		instance.onLevelChanged += (_, _) => IsDirty = true;
+		instance.LevelChanged += (_, _) => IsDirty = true;
 
-		onModifiersChanged?.Invoke();
+		EmitSignal(SignalName.ModifiersChanged);
 	}
 	/// <summary>
 	/// Creates and adds a new modifier instance to the stat's <c>Modifiers</c> 
@@ -66,6 +72,10 @@ public abstract partial class Stat
 	/// Creates and adds a new modifier instance to the stat's <c>Modifiers</c> 
 	/// collection
 	/// </summary>
+	/// <remarks>
+	/// (This overload cannot be used in GDScript, as neither C# overloads nor 
+	/// defaults seem to be recognized by the language.)
+	/// </remarks>
 	/// <param name="modifier">
 	/// The modifier to create an instance of and add to the collection
 	/// </param>
@@ -81,10 +91,10 @@ public abstract partial class Stat
 
 
 	/// <summary>
-	/// DOC
+	/// Detaches the input <c>instance</c> from the stat, if attached.
 	/// </summary>
-	/// <param name="instance"></param>
-	/// <returns></returns>
+	/// <param name="instance">The instance to detach</param>
+	/// <returns>Whether or not the instance was detached</returns>
 	public bool TryDetachModifierInstance(StatModifierInstance instance)
     {
         int __oldCount = m_Modifiers.Count;
@@ -96,14 +106,14 @@ public abstract partial class Stat
             return false;
         }
 
-        onModifiersChanged?.Invoke();
+        EmitSignal(SignalName.ModifiersChanged);
         return true;
     }
 	/// <summary>
-	/// DOC
+	/// Detaches any and all instances of the input <c>modifier</c> from the stat.
 	/// </summary>
-	/// <param name="modifier"></param>
-	/// <returns></returns>
+	/// <param name="modifier">The modifier of the instances to detach</param>
+	/// <returns>The amount of instances detached</returns>
 	public int TryDetachModifier(StatModifier modifier)
     {
 		int __count = 0;
@@ -120,20 +130,20 @@ public abstract partial class Stat
 
 
 	/// <summary>
-	/// DOC
+	/// Gets the first found instance of the input <c>modifier</c>.
 	/// </summary>
-	/// <param name="modifier"></param>
-	/// <returns></returns>
+	/// <param name="modifier">The modifier to find an instance of</param>
+	/// <returns>The first found instance</returns>
 	public StatModifierInstance GetInstance(StatModifier modifier)
 	{
 		return m_Modifiers.FirstOrDefault(m => m.Modifier == modifier);
 	}
 	/// <summary>
-	/// DOC
+	/// Gets the first found instance of the input <c>modifier</c>.
 	/// </summary>
-	/// <param name="modifier"></param>
-	/// <param name="instance"></param>
-	/// <returns></returns>
+	/// <param name="modifier">The modifier to find an instance of</param>
+	/// <param name="instance">The first found instance of the modifier</param>
+	/// <returns>Whether or not an instance was found</returns>
 	public bool TryGetInstance(StatModifier modifier, out StatModifierInstance instance)
 	{
 		instance = GetInstance(modifier);
@@ -141,20 +151,20 @@ public abstract partial class Stat
 	}
 
 	/// <summary>
-	/// DOC
+	/// Gets any attached instances of the input <c>modifier</c>.
 	/// </summary>
-	/// <param name="modifier"></param>
-	/// <returns></returns>
+	/// <param name="modifier">The modifier to find instances of</param>
+	/// <returns>Any found instances</returns>
 	public IEnumerable<StatModifierInstance> GetInstances(StatModifier modifier)
 	{
 		return m_Modifiers.Where(m => m.Modifier == modifier);
 	}
 	/// <summary>
-	/// DOC
+	/// Gets any attached instances of the input <c>modifier</c>.
 	/// </summary>
-	/// <param name="modifier"></param>
-	/// <param name="instances"></param>
-	/// <returns></returns>
+	/// <param name="modifier">The modifier to find instances of</param>
+	/// <param name="instances">Any found instances of the modifier</param>
+	/// <returns>Whether or not any instances were found</returns>
 	public bool TryGetInstances(StatModifier modifier, out IEnumerable<StatModifierInstance> instances)
 	{
 		instances = GetInstances(modifier);
@@ -163,7 +173,8 @@ public abstract partial class Stat
 
 
     /// <summary>
-    /// Applies all of this stat's modifiers to the input in order of priority
+    /// Applies all of this stat's modifiers to <c>input</c> in order of 
+	/// priority.
     /// </summary>
     public float ApplyModifiers(float input)
 	{

@@ -3,13 +3,13 @@ using Godot;
 namespace StatHub;
 
 /// <summary>
-/// A basic implementation of a stat with a consistent yet editable base value
+/// A basic implementation of a stat with a consistent yet editable base value.
 /// </summary>
 [GlobalClass, Icon("res://addons/StatHub/Assets/SimpleStat.png")]
 public partial class SimpleStat : Stat
 {
 	/// <summary>
-	/// The value of the stat before modifiers are applied
+	/// The value of the stat before modifiers are applied.
 	/// </summary>
 	[Export]
 	public float BaseValue { 

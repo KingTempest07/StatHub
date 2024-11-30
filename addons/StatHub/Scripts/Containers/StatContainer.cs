@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,9 +6,9 @@ using Godot;
 namespace StatHub;
 
 /// <summary>
-/// A container used to store each <c>Stat</c> owned by a particular source. 
-/// Stats must be children of a <c>StatContainer</c> in order for them to be 
-/// recognized by the <c>StatHub</c> and used with most of its functionality.
+/// A container is used to store each <c>Stat</c> owned by a particular source. 
+/// Stats must be children of a <c>StatContainer</c> to be recognized by the 
+/// <c>StatHub</c> and used with most of its functionality.
 /// </summary>
 [GlobalClass, Icon("res://addons/StatHub/Assets/StatContainer.png")]
 public sealed partial class StatContainer : Node, IEnumerable<Stat>
@@ -20,21 +19,29 @@ public sealed partial class StatContainer : Node, IEnumerable<Stat>
 	}
 
 
-	public delegate void ContainerLoaded(StatContainer container);
+	public delegate void LoadedContainer(StatContainer container);
 	/// <summary>
-	/// DOC
+	/// Invoked when a container is readied.
 	/// </summary>
-	public static event ContainerLoaded onContainerLoaded;
+	/// <remarks>
+	/// This is not intended for use, and the Hub’s <c>onAddedContainer</c> 
+	/// should be used, instead.
+	/// </remarks>
+	public static event LoadedContainer onLoadedContainer;
 
-	public delegate void ContainerUnloaded(StatContainer container);
+	public delegate void UnloadedContainer(StatContainer container);
 	/// <summary>
-	/// DOC
+	/// Invoked when a container has exited the tree.
 	/// </summary>
-	public static event ContainerUnloaded onContainerUnloaded;
+	/// <remarks>
+	/// This is not intended for use, and the Hub’s <c>onRemovedContainer</c> 
+	/// should be used, instead.
+	/// </remarks>
+	public static event UnloadedContainer onUnloadedContainer;
 
 
 	/// <summary>
-	/// DOC
+	/// The tag holder to match for this container.
 	/// </summary>
 	/// <value></value>
 	[Export]
@@ -65,8 +72,7 @@ public sealed partial class StatContainer : Node, IEnumerable<Stat>
 
 	/// <summary>
 	/// Searches through this <c>StatContainer</c>'s children (recursively) for 
-	/// any <c>Stat</c>s. All found <c>Stat</c>s are sent to the <c>Stats</c> 
-	/// collection.
+	/// any stats. All found stats are sent to the <c>Stats</c> collection.
 	/// </summary>
 	public void UpdateStatsList()
 	{
@@ -101,7 +107,7 @@ public sealed partial class StatContainer : Node, IEnumerable<Stat>
 
         base._Ready();
 
-		onContainerLoaded?.Invoke(this);
+		onLoadedContainer?.Invoke(this);
 
 		UpdateStatsList();
     }
@@ -109,7 +115,7 @@ public sealed partial class StatContainer : Node, IEnumerable<Stat>
 
     public override void _ExitTree()
     {
-		onContainerUnloaded?.Invoke(this);
+		onUnloadedContainer?.Invoke(this);
 
         base._ExitTree();
     }

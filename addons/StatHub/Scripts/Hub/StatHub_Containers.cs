@@ -7,30 +7,32 @@ namespace StatHub;
 
 public partial class StatHub : Node
 {
-	public delegate void ContainerAdded(StatContainer container);
 	/// <summary>
-	/// DOC
+	/// Emitted when a container is loaded and added to the Hub's collection
 	/// </summary>
-	public static event ContainerAdded onContainerAdded;
-
-	public delegate void ContainerRemoved(StatContainer container);
+	/// <param name="container">The newly added container</param>
+	[Signal]
+	public delegate void AddedContainerEventHandler(StatContainer container);
 	/// <summary>
-	/// DOC
+	/// Emitted when a container is unloaded and removed from the Hub's 
+	/// collection
 	/// </summary>
-	public static event ContainerRemoved onContainerRemoved;
+	/// <param name="container">The newly removed container</param>
+	[Signal]
+	public delegate void RemovedContainerEventHandler(StatContainer container);
 
 
 	/// <summary>
-	/// DOC
+	/// A collection of all active stat containers recognized by the Hub
 	/// </summary>
 	public static readonly ReadOnlyCollection<StatContainer> ActiveContainers;
 	private static readonly List<StatContainer> m_ActiveContainers = new();
 
 	/// <summary>
-	/// DOC
+	/// Gets the container of the input <c>stat</c>
 	/// </summary>
-	/// <param name="stat"></param>
-	/// <returns></returns>
+	/// <param name="stat">The stat to find the container of</param>
+	/// <returns>The container of the input <c>stat</c></returns>
 	public static StatContainer GetContainer(Stat stat)
 	{
 		StatAndContainer? __match = m_StatsAndContainers.FirstOrDefault(x => x.Stat == stat);
@@ -38,7 +40,7 @@ public partial class StatHub : Node
 	}
 
 
-	private static void OnContainerLoaded(StatContainer container)
+	private static void OnLoadedContainer(StatContainer container)
 	{
 		m_ActiveContainers.Add(container);
 		foreach (var __stat in container.Stats)
@@ -46,13 +48,14 @@ public partial class StatHub : Node
 			m_StatsAndContainers.Add(new(container, __stat));
 		}
 
-		TryAttachGlobalModifiersToContainer(container);
+		TryAttachGlobalModifiers(container);
 
-		onContainerAdded?.Invoke(container);
+		Instance.EmitSignal(SignalName.AddedContainer, container);
 	}
-	private static void OnContainerUnloaded(StatContainer container)
+	private static void OnUnloadedContainer(StatContainer container)
 	{
 		m_ActiveContainers.Remove(container);
-		onContainerRemoved?.Invoke(container);
+
+		Instance.EmitSignal(SignalName.RemovedContainer, container);
 	}
 }

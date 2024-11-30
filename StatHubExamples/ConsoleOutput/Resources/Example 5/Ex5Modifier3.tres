@@ -10,7 +10,7 @@
 [sub_resource type="Resource" id="Resource_slamt"]
 script = ExtResource("3_27n67")
 InvertTagFilter = false
-TagMatchesRequired = 0
+RequiredTagMatches = 0
 metadata/_custom_type_script = ExtResource("3_27n67")
 
 [sub_resource type="Resource" id="Resource_s67mm"]
@@ -22,7 +22,7 @@ metadata/_custom_type_script = ExtResource("2_aot4x")
 script = ExtResource("3_27n67")
 TagFilter = SubResource("Resource_s67mm")
 InvertTagFilter = true
-TagMatchesRequired = -1
+RequiredTagMatches = -1
 metadata/_custom_type_script = ExtResource("3_27n67")
 
 [resource]

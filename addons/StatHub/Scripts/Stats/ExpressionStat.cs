@@ -6,7 +6,7 @@ using static Godot.GD;
 namespace StatHub;
 
 /// <summary>
-/// An extremely customizable implementation of a stat that produces a new base 
+/// An extremely customizable implementation of a stat that produces its base 
 /// value from a custom expression utilizing other stats as inputs.
 /// </summary>
 [GlobalClass, Icon("res://addons/StatHub/Assets/ExpressionStat.png")]
@@ -19,8 +19,8 @@ public partial class ExpressionStat : Stat
 	/// https://docs.godotengine.org/en/stable/classes/class_expression.html
 	/// </summary>
 	/// <remarks>
-	/// Any keys inside the <c>ExpressionStatInputs</c> dictionary may be used to
-    /// represent their corresponding stat's value.   
+	/// Any keys given as inputs may be used to represent their corresponding 
+    /// stat's value.
 	/// </remarks> 
 	[Export]
 	public string CustomExpression { get; private set; }
@@ -36,6 +36,9 @@ public partial class ExpressionStat : Stat
     private Godot.Collections.Dictionary<string, NodePath> _expressionStatInputs;
 
 
+    /// <summary>
+    /// Stores the last calculated base value.
+    /// </summary>
     protected float m_baseValueCached;
 
 
@@ -71,7 +74,7 @@ public partial class ExpressionStat : Stat
         {
             foreach (Stat __input in m_StatInputs.Values)
             {
-                __input.onValueUpdated += (_, _) => IsDirty = true;
+                __input.ValueUpdated += (_, _) => IsDirty = true;
             }
         }
     }

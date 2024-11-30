@@ -4,48 +4,50 @@ using Godot;
 namespace StatHub;
 
 /// <summary>
-/// DOC
+/// A tag matcher decides whether or not a tag holder matches its set 
+/// requirements for use with global modifiers.
 /// </summary>
-[GlobalClass]
+[GlobalClass, Icon("res://addons/StatHub/Assets/TagMatcher.png")]
 public partial class TagMatcher : Resource
 {
 	/// <summary>
-	/// DOC
+	/// The tag holder used to filter applicable tags.
 	/// </summary>
-	/// <value></value>
+	/// <remarks>
+	/// By default, this is a whitelist.
+	/// </remarks>
 	[Export]
 	public TagHolder TagFilter { get; private set; }
 
 	/// <summary>
-	/// If true, turns the tag filter into a blacklist rather than a whitelist
+	/// If true, turns the tag filter into a blacklist rather than a whitelist.
 	/// </summary>
-	/// <value></value>
 	[Export]
 	public bool InvertTagFilter { get; private set; }
 
 
 	/// <summary>
 	/// The amount of matches required to be considered matching; if less than 
-	/// zero, will require all tags in the filter to be matched
+	/// zero, will require all tags in the filter to be matched.
 	/// </summary>
 	/// <remarks>
-	/// If <c>InvertTagFilter</c> is <c>true</c>, then this will be flipped as 
-	/// well, requiring the same amount of matches with the filter to *not* be 
+	/// If <c>InvertTagFilter</c> is <c>true</c>, this will be flipped as well, 
+	/// requiring the same amount of matches with the filter to *not* be 
 	/// considered a match.
 	/// </remarks>
 	/// <value></value>
 	[Export]
-	public int TagMatchesRequired { get; private set; } = 1;
+	public int RequiredTagMatches { get; private set; } = 1;
 
 
 	/// <summary>
-	/// DOC
+	/// Decides whether or not the tag holder matches this matcher’s criteria.
 	/// </summary>
-	/// <param name="tags"></param>
-	/// <returns></returns>
+	/// <param name="tagHolder">The tag holder to check</param>
+	/// <returns>Whether or not the tag holder matches</returns>
     public bool Matches(TagHolder tagHolder)
 	{
-		if (TagMatchesRequired == 0)
+		if (RequiredTagMatches == 0)
 		{
 			return !InvertTagFilter;
 		}
@@ -55,7 +57,7 @@ public partial class TagMatcher : Resource
 			return false;
 		}
 
-		if (tagHolder.Count() < TagMatchesRequired)
+		if (tagHolder.Count() < RequiredTagMatches)
 		{
 			return InvertTagFilter;
 		}
@@ -71,10 +73,10 @@ public partial class TagMatcher : Resource
 			}
 			__matchCount++;
 
-            __hasMetMatches = TagMatchesRequired switch
+            __hasMetMatches = RequiredTagMatches switch
             {
-                > 0 => __matchCount >= TagMatchesRequired
-					|| TagMatchesRequired < 0
+                > 0 => __matchCount >= RequiredTagMatches
+					|| RequiredTagMatches < 0
 					&& __matchCount == TagFilter.Count(),
                 
 				_ => __matchCount == TagFilter.Count(),

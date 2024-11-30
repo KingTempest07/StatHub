@@ -45,7 +45,7 @@ script = ExtResource("15_js51r")
 _tags = [ExtResource("17_3kju7")]
 metadata/_custom_type_script = ExtResource("15_js51r")
 
-[node name="ConsoleOutputCS" type="Node" node_paths=PackedStringArray("ex1_simple_stats", "ex2_simple_stats", "ex3_simple_stats", "ex4_expression_stat_1", "ex4_expression_stat_2", "ex4_expression_stat_3", "ex4_simple_stat_1", "ex5_stat_container_1", "ex5_stat_container_2")]
+[node name="ConsoleOutputGD" type="Node" node_paths=PackedStringArray("ex1_simple_stats", "ex2_simple_stats", "ex3_simple_stats", "ex4_expression_stat_1", "ex4_expression_stat_2", "ex4_expression_stat_3", "ex4_simple_stat_1", "ex5_stat_container_1", "ex5_stat_container_2")]
 script = ExtResource("1_fd7yi")
 ex1_simple_stats = [NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat1"), NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat2"), NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat3"), NodePath("Ex1234StatContainer/Example1SimpleStats/SimpleStat4")]
 ex2_simple_stats = [NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat1"), NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat2"), NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat3"), NodePath("Ex1234StatContainer/Example2SimpleStats/SimpleStat4")]
