@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace StatHub;
@@ -68,5 +69,20 @@ public abstract partial class Stat : Node
     public override string ToString() => Value.ToString();
 
 
+	/// <summary>
+	/// Gets the stat's value rounded to the nearest integer.
+	/// </summary>
+	public int Rounded() => Mathf.RoundToInt(Value);
+	/// <summary>
+	/// Gets the stat's value rounded upwards to the nearest integer.
+	/// </summary>
+	public int RoundedUp() => Mathf.CeilToInt(Value);
+	/// <summary>
+	/// Gets the stat's value rounded downwards to the nearest integer.
+	/// </summary>
+	public int RoundedDown() => Mathf.FloorToInt(Value);
+
+
     public static implicit operator float(Stat stat) => stat.Value;
+	public static implicit operator int(Stat stat) => stat.Rounded();
 }
