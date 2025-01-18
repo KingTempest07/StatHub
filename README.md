@@ -5,6 +5,4 @@ For the full documentation and tutorials, visit the wiki [here](https://tar-grif
 
 For some basic examples, see the included example scenes!
 
-Donations are much appreciated! _Cheeky link: [Ko-fi](ko-fi.com/kingtempest07)_
-
 ![StatHubLogo](https://github.com/user-attachments/assets/abef426a-7705-429a-8622-4ae6d190340b)
