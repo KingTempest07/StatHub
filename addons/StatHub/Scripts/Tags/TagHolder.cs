@@ -22,7 +22,7 @@ public sealed partial class TagHolder : Resource, IEnumerable<Tag>
 	/// A collection of tags owned by this tag holder.
 	/// </summary>
 	public readonly ReadOnlyCollection<Tag> Tags;
-	private List<Tag> m_tags = new();
+	private readonly List<Tag> m_tags = new();
 	[Export]
 	private Godot.Collections.Array<Tag> _tags = new();
 
@@ -34,7 +34,7 @@ public sealed partial class TagHolder : Resource, IEnumerable<Tag>
 		{
 			return;
 		}
-		m_tags = _tags.ToList();
+		m_tags.AddRange(_tags);
 		m_init = true;
 	}
 

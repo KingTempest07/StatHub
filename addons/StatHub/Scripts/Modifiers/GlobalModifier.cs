@@ -4,14 +4,14 @@ using Godot;
 namespace StatHub;
 
 /// <summary>
-/// A global modifier is an object used to automatically attach a modifier to 
-/// applicable stats.
+/// A global modifier is an object used to attach a modifier to applicable stats 
+/// and figures automatically.
 /// </summary>
 /// <remarks>
 /// This class has no functionality on its own and should be used in tandem with 
 /// the Hub and its helpers.
 /// </remarks>
-[GlobalClass]
+[GlobalClass, Icon("res://addons/StatHub/Assets/GlobalModifier.png")]
 public sealed partial class GlobalModifier : RefCounted
 {
 	/// <summary>
@@ -28,7 +28,7 @@ public sealed partial class GlobalModifier : RefCounted
 	/// Whether or not the modifier will continue to attach to newly created 
 	/// stats after first being created
 	/// </param>
-	public GlobalModifier(StatModifier modifier, bool persistent)
+	public GlobalModifier(Modifier modifier, bool persistent)
 	{
 		Modifier = modifier;
 		Persistent = persistent;
@@ -38,7 +38,7 @@ public sealed partial class GlobalModifier : RefCounted
 	/// <summary>
 	/// The modifier this globalizes.
 	/// </summary>
-	public readonly StatModifier Modifier;
+	public readonly Modifier Modifier;
 
 
 	/// <summary>
@@ -49,7 +49,7 @@ public sealed partial class GlobalModifier : RefCounted
 
 
 	/// <summary>
-	/// A collection of all stats this modifier is attached to.
+	/// A collection of all objects this modifier is attached to.
 	/// </summary>
-	public readonly HashSet<Stat> AttachedStats = new();
+	public readonly HashSet<ModifierAttachable> AttachedObjects = new();
 }

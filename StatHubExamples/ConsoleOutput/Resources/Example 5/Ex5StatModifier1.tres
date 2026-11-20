@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="StatModifier" load_steps=13 format=3 uid="uid://l2dyawym873p"]
+
+[ext_resource type="Resource" uid="uid://bbwnxrd38sglx" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag1.tres" id="1_2g3ad"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatModifier.cs" id="1_laj4u"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagHolder.cs" id="2_bdjju"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagMatcher.cs" id="3_thujh"]
+[ext_resource type="Resource" uid="uid://d35cl0hn1o2tw" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag1.tres" id="4_01vri"]
+[ext_resource type="Resource" uid="uid://xm20qldwryy" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag2.tres" id="5_j62fm"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatFlatAdditiveModifierStrategy.cs" id="6_feys8"]
+
+[sub_resource type="Resource" id="Resource_isykm"]
+script = ExtResource("2_bdjju")
+_tags = [ExtResource("1_2g3ad")]
+metadata/_custom_type_script = ExtResource("2_bdjju")
+
+[sub_resource type="Resource" id="Resource_2h1cj"]
+script = ExtResource("3_thujh")
+TagFilter = SubResource("Resource_isykm")
+InvertTagFilter = false
+RequiredTagMatches = 1
+metadata/_custom_type_script = ExtResource("3_thujh")
+
+[sub_resource type="Resource" id="Resource_cukml"]
+script = ExtResource("2_bdjju")
+_tags = [ExtResource("4_01vri"), ExtResource("5_j62fm")]
+metadata/_custom_type_script = ExtResource("2_bdjju")
+
+[sub_resource type="Resource" id="Resource_b7m3w"]
+script = ExtResource("3_thujh")
+TagFilter = SubResource("Resource_cukml")
+InvertTagFilter = false
+RequiredTagMatches = 1
+metadata/_custom_type_script = ExtResource("3_thujh")
+
+[sub_resource type="Resource" id="Resource_ugxjr"]
+script = ExtResource("6_feys8")
+BaseAddend = 500.0
+metadata/_custom_type_script = ExtResource("6_feys8")
+
+[resource]
+script = ExtResource("1_laj4u")
+Strategy = SubResource("Resource_ugxjr")
+StatTagMatcher = SubResource("Resource_b7m3w")
+ContainerTagMatcher = SubResource("Resource_2h1cj")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("1_laj4u")

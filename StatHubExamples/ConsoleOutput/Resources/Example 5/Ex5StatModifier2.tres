@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="StatModifier" load_steps=12 format=3 uid="uid://bhpd6uf32p033"]
+
+[ext_resource type="Resource" uid="uid://bbwnxrd38sglx" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag1.tres" id="1_wuti1"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagHolder.cs" id="2_awkhq"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagMatcher.cs" id="3_l30vv"]
+[ext_resource type="Resource" uid="uid://xm20qldwryy" path="res://StatHubExamples/ConsoleOutput/Tags/Stat/StatTag2.tres" id="4_2gi07"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatFlatAdditiveModifierStrategy.cs" id="5_4vp4q"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatModifier.cs" id="6_llgnr"]
+
+[sub_resource type="Resource" id="Resource_y8erd"]
+script = ExtResource("2_awkhq")
+_tags = [ExtResource("1_wuti1")]
+metadata/_custom_type_script = ExtResource("2_awkhq")
+
+[sub_resource type="Resource" id="Resource_w0y57"]
+script = ExtResource("3_l30vv")
+TagFilter = SubResource("Resource_y8erd")
+InvertTagFilter = true
+RequiredTagMatches = 1
+metadata/_custom_type_script = ExtResource("3_l30vv")
+
+[sub_resource type="Resource" id="Resource_5ec6x"]
+script = ExtResource("2_awkhq")
+_tags = [ExtResource("4_2gi07")]
+metadata/_custom_type_script = ExtResource("2_awkhq")
+
+[sub_resource type="Resource" id="Resource_amctg"]
+script = ExtResource("3_l30vv")
+TagFilter = SubResource("Resource_5ec6x")
+InvertTagFilter = false
+RequiredTagMatches = 1
+metadata/_custom_type_script = ExtResource("3_l30vv")
+
+[sub_resource type="Resource" id="Resource_iq7lm"]
+script = ExtResource("5_4vp4q")
+BaseAddend = 500.0
+metadata/_custom_type_script = ExtResource("5_4vp4q")
+
+[resource]
+script = ExtResource("6_llgnr")
+Strategy = SubResource("Resource_iq7lm")
+StatTagMatcher = SubResource("Resource_amctg")
+ContainerTagMatcher = SubResource("Resource_w0y57")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("6_llgnr")

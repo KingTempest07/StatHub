@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="StatModifier" load_steps=12 format=3 uid="uid://bnwfp523xx8q6"]
+
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatModifier.cs" id="1_mjlo7"]
+[ext_resource type="Resource" uid="uid://dt8rmo3i0f7qw" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag2.tres" id="1_xh03t"]
+[ext_resource type="Resource" uid="uid://ddh6pfrse7vi7" path="res://StatHubExamples/ConsoleOutput/Tags/Container/ContainerTag3.tres" id="2_fsejl"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagHolder.cs" id="3_glb3g"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagMatcher.cs" id="4_d2xlk"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatFlatAdditiveModifierStrategy.cs" id="5_fd2d3"]
+
+[sub_resource type="Resource" id="Resource_k0tra"]
+script = ExtResource("3_glb3g")
+_tags = [ExtResource("1_xh03t"), ExtResource("2_fsejl")]
+metadata/_custom_type_script = ExtResource("3_glb3g")
+
+[sub_resource type="Resource" id="Resource_65rd7"]
+script = ExtResource("4_d2xlk")
+TagFilter = SubResource("Resource_k0tra")
+InvertTagFilter = false
+RequiredTagMatches = -1
+metadata/_custom_type_script = ExtResource("4_d2xlk")
+
+[sub_resource type="Resource" id="Resource_cawdm"]
+script = ExtResource("3_glb3g")
+_tags = []
+metadata/_custom_type_script = ExtResource("3_glb3g")
+
+[sub_resource type="Resource" id="Resource_5xywg"]
+script = ExtResource("4_d2xlk")
+TagFilter = SubResource("Resource_cawdm")
+InvertTagFilter = false
+RequiredTagMatches = 0
+metadata/_custom_type_script = ExtResource("4_d2xlk")
+
+[sub_resource type="Resource" id="Resource_aqx4j"]
+script = ExtResource("5_fd2d3")
+BaseAddend = 500.0
+metadata/_custom_type_script = ExtResource("5_fd2d3")
+
+[resource]
+script = ExtResource("1_mjlo7")
+Strategy = SubResource("Resource_aqx4j")
+StatTagMatcher = SubResource("Resource_5xywg")
+ContainerTagMatcher = SubResource("Resource_65rd7")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("1_mjlo7")

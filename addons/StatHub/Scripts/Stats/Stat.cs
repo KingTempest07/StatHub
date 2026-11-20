@@ -1,33 +1,16 @@
-using System;
 using Godot;
 
 namespace StatHub;
 
 /// <summary>
-/// A stat provides a base value and returns a modified value based on any 
+/// A stat provides a base value and returns that value applied with any 
 /// attached modifiers.
 /// </summary>
 [GlobalClass, Icon("res://addons/StatHub/Assets/Stat.png")]
-public abstract partial class Stat : Node
+public abstract partial class Stat : ModifierAttachable<StatModifier>
 {
-	public Stat()
-	{
-		Modifiers = m_Modifiers.AsReadOnly();
-	}
-
-
-	/// <summary>
-	/// The tag holder to match for this stat.
-	/// </summary>
-	/// <value></value>
-	[Export]
-	public TagHolder TagHolder { get; private set; }
-
-
-	public override void _Ready()
+    public override void _Ready()
     {
-		TagHolder?.__Init();
-
         base._Ready();
 
 		if (ValueUpdateOption == ValueUpdateOptions.ON_DIRTIED)
@@ -63,7 +46,26 @@ public abstract partial class Stat : Node
     /// <summary>
     /// Gets the container of this stat.
     /// </summary>
-    public StatContainer GetContainer() => StatHub.GetContainer(this);
+    public HubContainer GetContainer() => StatHub.GetContainer(this);
+
+
+    public override void TryAttachModifierInstance(ModifierInstance instance)
+    {
+        base.TryAttachModifierInstance(instance);
+		instance.LevelChanged += (_, _) => IsDirty = true;
+    }
+
+    public override float ApplyModifiers(float input)
+    {
+		foreach (var __instance in Modifiers)
+		{
+			input = (__instance.Modifier as StatModifier).Modify(
+				__instance, 
+				input
+			);
+		}
+		return input;
+    }
 
 
     public override string ToString() => Value.ToString();

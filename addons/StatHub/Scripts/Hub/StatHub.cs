@@ -13,13 +13,13 @@ public partial class StatHub : Node
 {
 	private readonly struct StatAndContainer
 	{
-		public StatAndContainer(StatContainer container, Stat stat)
+		public StatAndContainer(HubContainer container, Stat stat)
 		{
 			Container = container;
 			Stat = stat;
 		}
 
-		public readonly StatContainer Container;
+		public readonly HubContainer Container;
 		public readonly Stat Stat;
 	}
 
@@ -29,8 +29,8 @@ public partial class StatHub : Node
 		ActiveContainers = m_ActiveContainers.AsReadOnly();
 		GlobalModifiers = m_GlobalModifiers.AsReadOnly();
 
-		StatContainer.onLoadedContainer += OnLoadedContainer;
-		StatContainer.onUnloadedContainer += OnUnloadedContainer;
+		HubContainer.onLoadedContainer += OnLoadedContainer;
+		HubContainer.onUnloadedContainer += OnUnloadedContainer;
 	}
 
 

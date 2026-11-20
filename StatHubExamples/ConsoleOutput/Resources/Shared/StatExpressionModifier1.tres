@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatModifier" load_steps=4 format=3 uid="uid://c1d4anks6vh76"]
+
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatExpressionModifierStrategy.cs" id="1_76d8w"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatModifier.cs" id="1_8316l"]
+
+[sub_resource type="Resource" id="Resource_tlsep"]
+script = ExtResource("1_76d8w")
+CustomExpression = "input * level"
+metadata/_custom_type_script = ExtResource("1_76d8w")
+
+[resource]
+script = ExtResource("1_8316l")
+Strategy = SubResource("Resource_tlsep")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("1_8316l")

@@ -12,11 +12,11 @@ class_name ConsoleOutput
 @export var ex4_expression_stat_3 : ExpressionStat
 @export var ex4_simple_stat_1 : SimpleStat
 
-@export var ex5_stat_container_1 : StatContainer
-@export var ex5_stat_container_2 : StatContainer
-@export var ex5_modifier_1 : StatModifier
-@export var ex5_modifier_2 : StatModifier
-@export var ex5_modifier_3 : StatModifier
+@export var ex5_container_1 : HubContainer
+@export var ex5_container_2 : HubContainer
+@export var ex5_modifier_1 : InputModifier
+@export var ex5_modifier_2 : InputModifier
+@export var ex5_modifier_3 : InputModifier
 
 #region SHARED
 @export var simple_modifier_1 : SimpleModifier
@@ -63,7 +63,7 @@ func example1():
 func example2():
 	print("\n\n\n=====Running example no. 2 (reusing an instance; SimpleStatModifier leveling)=====")
 
-	var instance = StatModifierInstance.Create(simple_modifier_1)
+	var instance = ModifierInstance.Create(simple_modifier_1)
 	print("\nCreated a new instance of simple_modifier_1 at level 1!")
 
 	for stat in ex2_simple_stats:
@@ -87,7 +87,7 @@ func example3():
 		for stat in ex3_simple_stats:
 			print_value(stat, "\nStarting on a clean stat, \"%s!\"" % stat.name)
 
-			var instance = StatModifierInstance.Create(mod)
+			var instance = ModifierInstance.Create(mod)
 			print("Created a new instance of the expression mod!")
 
 			stat.AttachModifierInstance(instance)
@@ -155,8 +155,8 @@ func example4():
 
 func example5():
 	var print_containers = func():
-		print_container_values(ex5_stat_container_1, "Container 1:")
-		print_container_values(ex5_stat_container_2, "Container 2:")
+		print_container_values(ex5_container_1, "Container 1:")
+		print_container_values(ex5_container_2, "Container 2:")
 
 	print("\n\n\n=====Running example no. 5 (GlobalModifier)=====\n") 
 
@@ -184,7 +184,7 @@ func example5():
 
 
 #region HELPERS
-static func print_container_values(container : StatContainer, context : String = ""):
+static func print_container_values(container : HubContainer, context : String = ""):
 	print_context(context)
 	for stat in container.GetStats():
 		print_value(stat)

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="StatModifier" load_steps=4 format=3 uid="uid://dl41jlcov7qle"]
+
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatModifier.cs" id="1_fmndd"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Stats/StatPercentAdditiveModifierStrategy.cs" id="1_vt7oi"]
+
+[sub_resource type="Resource" id="Resource_45lr8"]
+script = ExtResource("1_vt7oi")
+BasePercentChange = 200.0
+metadata/_custom_type_script = ExtResource("1_vt7oi")
+
+[resource]
+script = ExtResource("1_fmndd")
+Strategy = SubResource("Resource_45lr8")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("1_fmndd")

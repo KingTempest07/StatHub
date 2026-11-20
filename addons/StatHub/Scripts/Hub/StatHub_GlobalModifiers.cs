@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Godot;
 
 namespace StatHub;
@@ -33,7 +34,7 @@ public partial class StatHub : Node
 	/// </summary>
 	/// <param name="modifier">The modifier to make global</param>
 	/// <returns>The newly created global modifier</returns>
-	public static GlobalModifier CreateAndAddGlobalModifier(StatModifier modifier)
+	public static GlobalModifier CreateAndAddGlobalModifier(Modifier modifier)
 	{
 		if (modifier == null)
 		{
@@ -57,14 +58,14 @@ public partial class StatHub : Node
 	{
 		m_GlobalModifiers.Add(globalModifier);
 
-		StatModifier __mod = globalModifier.Modifier;
+		Modifier __mod = globalModifier.Modifier;
 
-		IEnumerable<Stat> __matchingStats = GetMatchingStats(
+		IEnumerable<ModifierAttachable> __matchingAttachables = GetMatchingAttachables(
 			__mod.ContainerTagMatcher, 
-			__mod.StatTagMatcher
+			__mod.GetAttachableTagMatcher()
 		);
 
-		foreach (var __stat in __matchingStats)
+		foreach (Stat __stat in __matchingAttachables.Cast<Stat>())
 		{
 			AttachGlobalModifier(__stat, globalModifier);
 		}
@@ -79,9 +80,9 @@ public partial class StatHub : Node
 	/// <param name="globalModifier">The global modifier to remove</param>
 	public static void RemoveGlobalModifier(GlobalModifier globalModifier)
 	{
-		foreach (Stat __stat in globalModifier.AttachedStats)
+		foreach (ModifierAttachable __attached in globalModifier.AttachedObjects)
 		{
-			__stat.TryDetachModifier(globalModifier.Modifier);
+			__attached.TryDetachModifier(globalModifier.Modifier);
 		}
 
 		m_GlobalModifiers.Remove(globalModifier);
@@ -90,7 +91,7 @@ public partial class StatHub : Node
 	}
 
 
-	private static void TryAttachGlobalModifiers(StatContainer statContainer)
+	private static void TryAttachGlobalModifiers(HubContainer statContainer)
 	{
 		foreach (GlobalModifier __globalModifier in GlobalModifiers)
 		{
@@ -116,24 +117,31 @@ public partial class StatHub : Node
 			return;
 		}
 
-		StatModifier __mod = globalModifier.Modifier;
+		Modifier __mod = globalModifier.Modifier;
 
-		if (__mod.StatTagMatcher == null || __mod.ContainerTagMatcher == null)
+		if (!stat.IsValidModifier(__mod))
 		{
-			GD.PushWarning($"The modifier named \"{__mod.DebugName}\" does not have an assigned stat tag matcher and/or container tag matcher, yet it is trying to be used as a global modifier.");
+			return;
+		}
+
+		TagMatcher __attachableTagMatcher = __mod.GetAttachableTagMatcher();
+
+		if (__attachableTagMatcher == null || __mod.ContainerTagMatcher == null)
+		{
+			GD.PushWarning($"The modifier named \"{__mod.DebugName}\" does not have an assigned attachable tag matcher and/or container tag matcher, yet it is trying to be used as a global modifier.");
 			return;
 		}
 
 		// try init just in case
 		__mod.ContainerTagMatcher.TagFilter?.__Init();
-		__mod.StatTagMatcher.TagFilter?.__Init();
+		__attachableTagMatcher.TagFilter?.__Init();
 
-		if (!__mod.StatTagMatcher.Matches(stat.TagHolder))
+		if (!__attachableTagMatcher.Matches(stat.TagHolder))
 		{
 			return;
 		}
 
-		StatContainer __container = stat.GetContainer();
+		HubContainer __container = stat.GetContainer();
 		if (!__mod.ContainerTagMatcher.Matches(__container.TagHolder))
 		{
 			return;
@@ -143,55 +151,55 @@ public partial class StatHub : Node
 	}
 	private static void AttachGlobalModifier(Stat stat, GlobalModifier globalModifier)
 	{
-		stat.AttachModifier(globalModifier.Modifier);
+		stat.TryAttachModifier(globalModifier.Modifier);
 
-		globalModifier.AttachedStats.Add(stat);
+		globalModifier.AttachedObjects.Add(stat);
 		stat.TreeExited += () =>
         {
-            globalModifier.AttachedStats.Remove(stat);
+            globalModifier.AttachedObjects.Remove(stat);
         };
 	}
 
 
-	private static readonly HashSet<Stat> _statMatches = new();
+	private static readonly HashSet<ModifierAttachable> _attachableMatches = new();
 	/// <summary>
-	/// Get all stats recognized by the Hub that match the given tag matchers
+	/// Get all attachables recognized by the Hub that match the given tag matchers
 	/// </summary>
 	/// <param name="containerTagMatcher">The container matcher to use</param>
-	/// <param name="statTagMatcher">The stat matcher to use</param>
-	/// <returns>Any found matching stats</returns>
-	public static IEnumerable<Stat> GetMatchingStats(TagMatcher containerTagMatcher, TagMatcher statTagMatcher)
+	/// <param name="attachableTagMatcher">The attachable matcher to use</param>
+	/// <returns>Any found matching attachables</returns>
+	public static IEnumerable<ModifierAttachable> GetMatchingAttachables(TagMatcher containerTagMatcher, TagMatcher attachableTagMatcher)
 	{
-		_statMatches.Clear();
+		_attachableMatches.Clear();
 
-		if (statTagMatcher == null || containerTagMatcher == null)
+		if (attachableTagMatcher == null || containerTagMatcher == null)
 		{
 			GD.PushWarning($"Attempted to get matching stats with a null tag matcher!");
-			return _statMatches;
+			return _attachableMatches;
 		}
 
 		// try init just in case
 		containerTagMatcher.TagFilter?.__Init();
-		statTagMatcher.TagFilter?.__Init();
+		attachableTagMatcher.TagFilter?.__Init();
 
-		foreach (StatContainer __container in m_ActiveContainers)
+		foreach (HubContainer __container in m_ActiveContainers)
 		{
 			if (!containerTagMatcher.Matches(__container.TagHolder))
 			{
 				continue;
 			}
 
-			foreach (Stat __stat in __container)
+			foreach (ModifierAttachable __attachable in __container)
 			{
-				if (!statTagMatcher.Matches(__stat.TagHolder))
+				if (!attachableTagMatcher.Matches(__attachable.TagHolder))
 				{
 					continue;
 				}
 
-				_statMatches.Add(__stat);
+				_attachableMatches.Add(__attachable);
 			}
 		}
 
-		return _statMatches;
+		return _attachableMatches;
 	}
 }

@@ -12,35 +12,35 @@ public partial class StatHub : Node
 	/// </summary>
 	/// <param name="container">The newly added container</param>
 	[Signal]
-	public delegate void AddedContainerEventHandler(StatContainer container);
+	public delegate void AddedContainerEventHandler(HubContainer container);
 	/// <summary>
 	/// Emitted when a container is unloaded and removed from the Hub's 
 	/// collection
 	/// </summary>
 	/// <param name="container">The newly removed container</param>
 	[Signal]
-	public delegate void RemovedContainerEventHandler(StatContainer container);
+	public delegate void RemovedContainerEventHandler(HubContainer container);
 
 
 	/// <summary>
 	/// A collection of all active stat containers recognized by the Hub
 	/// </summary>
-	public static readonly ReadOnlyCollection<StatContainer> ActiveContainers;
-	private static readonly List<StatContainer> m_ActiveContainers = new();
+	public static readonly ReadOnlyCollection<HubContainer> ActiveContainers;
+	private static readonly List<HubContainer> m_ActiveContainers = new();
 
 	/// <summary>
 	/// Gets the container of the input <c>stat</c>
 	/// </summary>
 	/// <param name="stat">The stat to find the container of</param>
 	/// <returns>The container of the input <c>stat</c></returns>
-	public static StatContainer GetContainer(Stat stat)
+	public static HubContainer GetContainer(Stat stat)
 	{
 		StatAndContainer? __match = m_StatsAndContainers.FirstOrDefault(x => x.Stat == stat);
 		return __match?.Container;
 	}
 
 
-	private static void OnLoadedContainer(StatContainer container)
+	private static void OnLoadedContainer(HubContainer container)
 	{
 		m_ActiveContainers.Add(container);
 		foreach (var __stat in container.Stats)
@@ -52,7 +52,7 @@ public partial class StatHub : Node
 
 		Instance.EmitSignal(SignalName.AddedContainer, container);
 	}
-	private static void OnUnloadedContainer(StatContainer container)
+	private static void OnUnloadedContainer(HubContainer container)
 	{
 		m_ActiveContainers.Remove(container);
 

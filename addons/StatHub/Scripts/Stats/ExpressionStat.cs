@@ -17,6 +17,7 @@ public partial class ExpressionStat : Stat
     /// string will be parsed into the type <c>Expression</c>, so for usage, 
     /// refer to the docs: 
 	/// https://docs.godotengine.org/en/stable/classes/class_expression.html
+    /// https://docs.godotengine.org/en/stable/tutorials/scripting/evaluating_expressions.html   
 	/// </summary>
 	/// <remarks>
 	/// Any keys given as inputs may be used to represent their corresponding 

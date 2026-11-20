@@ -123,7 +123,7 @@ public abstract partial class Stat
 	{
 		float __previousValue = m_valueCached;
 
-		m_valueCached = ApplyModifiers(GetBaseValue());
+		m_valueCached = (this as ModifierAttachable).ApplyModifiers(GetBaseValue());
 
 		IsDirty = false;
 

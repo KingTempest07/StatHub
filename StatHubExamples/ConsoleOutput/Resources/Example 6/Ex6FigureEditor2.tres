@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="FigureValueEditor" load_steps=5 format=3 uid="uid://ciiktjrq33qex"]
+
+[ext_resource type="Resource" uid="uid://cl3flcwbn5dy3" path="res://StatHubExamples/ConsoleOutput/Tags/Figure Value Editors/EditorTag2.tres" id="2_6ufux"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Tags/TagHolder.cs" id="2_ip1id"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Figures/FigureValueEditor.cs" id="3_6ufux"]
+
+[sub_resource type="Resource" id="Resource_wolgw"]
+script = ExtResource("2_ip1id")
+_tags = [ExtResource("2_6ufux")]
+metadata/_custom_type_script = ExtResource("2_ip1id")
+
+[resource]
+script = ExtResource("3_6ufux")
+TagHolder = SubResource("Resource_wolgw")
+metadata/_custom_type_script = ExtResource("3_6ufux")

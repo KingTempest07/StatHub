@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="FigureModifier" load_steps=6 format=3 uid="uid://d0qqd7cbqcb4f"]
+
+[ext_resource type="Resource" uid="uid://f1yekl1fs5fm" path="res://StatHubExamples/ConsoleOutput/Tags/Figure Value Editors/EditorTag1.tres" id="1_q3bv7"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Figures/FigureModifier.cs" id="1_yl2kp"]
+[ext_resource type="Script" path="res://addons/StatHub/Scripts/Figures/FigureExpressionModifierStrategy.cs" id="2_jtisf"]
+[ext_resource type="Resource" uid="uid://cl3flcwbn5dy3" path="res://StatHubExamples/ConsoleOutput/Tags/Figure Value Editors/EditorTag2.tres" id="2_ntee6"]
+
+[sub_resource type="Resource" id="Resource_ntee6"]
+script = ExtResource("2_jtisf")
+CustomExpression = "change 
+* [
+	(
+		[2, 5][
+				int(editorTags.has(tag1))
+			]
+		+ [1, 2, 3][
+				int(!editorTags.has(tag1)) 
+				+ int(editorTags.has(tag2))
+			]
+	), 
+	1
+][int(value > 10)]"
+_expressionTagInputs = Dictionary[String, Object]({
+"tag1": ExtResource("1_q3bv7"),
+"tag2": ExtResource("2_ntee6")
+})
+metadata/_custom_type_script = ExtResource("2_jtisf")
+
+[resource]
+script = ExtResource("1_yl2kp")
+Strategy = SubResource("Resource_ntee6")
+Priority = 0
+PersistentIfGlobal = false
+DebugName = ""
+metadata/_custom_type_script = ExtResource("1_yl2kp")
